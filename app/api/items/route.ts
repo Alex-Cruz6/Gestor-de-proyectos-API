@@ -2,7 +2,12 @@
 
 import { NextResponse } from 'next/server';
 
-const items: Array<{ id: number; nombre: string; descripcion?: string }> = [
+type Data =
+  | { items: Array<{ id: number; nombre: string; descripcion?: string }> }
+  | { item: { id: number; nombre: string; descripcion?: string } }
+  | { error: string };
+
+let items: Array<{ id: number; nombre: string; descripcion?: string }> = [
   { id: 1, nombre: 'Item 1', descripcion: 'Descripción del Item 1' },
   { id: 2, nombre: 'Item 2' },
 ];
