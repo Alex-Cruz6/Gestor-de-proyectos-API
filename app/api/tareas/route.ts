@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     const { nombre, descripcion, estado, proyecto_id, asignado_a } = await request.json();
 
     if (!nombre || !estado || !proyecto_id || !asignado_a) {
-        return NextResponse.json({ error: 'Faltan campos obligatorios' }, { status: 400 });
+        return NextResponse.json({ error: 'Faltan campos obligatorios' }, { status: 400, headers: { 'Access-Control-Allow-Origin': '*' } });
     }
 
     const db = await getConnection();
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
         .input('asignado_a', asignado_a)
         .query(query);
 
-    return NextResponse.json({ message: 'Tarea creada con éxito' });
+    return NextResponse.json({ message: 'Tarea creada con éxito' }, { headers: { 'Access-Control-Allow-Origin': '*' } });
 }
 
 // GET /api/tareas/route.ts
@@ -30,5 +30,5 @@ export async function GET() {
     const db = await getConnection();
     const result = await db.query('SELECT * FROM Tareas');
 
-    return NextResponse.json(result.recordset);
+    return NextResponse.json(result.recordset, { headers: { 'Access-Control-Allow-Origin': '*' } });
 }
