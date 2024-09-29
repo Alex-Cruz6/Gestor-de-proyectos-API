@@ -10,10 +10,10 @@ export async function GET(request: Request, { params }: { params: { id: string }
         .query('SELECT * FROM Tareas WHERE id = @id');
 
     if (result.recordset.length === 0) {
-        return NextResponse.json({ error: 'Tarea no encontrada' }, { status: 404 });
+        return NextResponse.json({ error: 'Tarea no encontrada' }, { status: 404, headers: { 'Access-Control-Allow-Origin': '*' } });
     }
 
-    return NextResponse.json(result.recordset[0]);
+    return NextResponse.json(result.recordset[0], { headers: { 'Access-Control-Allow-Origin': '*' } });
 }
 
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
@@ -38,10 +38,10 @@ export async function PATCH(request: Request, { params }: { params: { id: string
         .query(query);
 
     if (result.rowsAffected[0] === 0) {
-        return NextResponse.json({ error: 'Tarea no encontrada o sin cambios' }, { status: 404 });
+        return NextResponse.json({ error: 'Tarea no encontrada o sin cambios' }, { status: 404, headers: { 'Access-Control-Allow-Origin': '*' } });
     }
 
-    return NextResponse.json({ message: 'Tarea actualizada con éxito' });
+    return NextResponse.json({ message: 'Tarea actualizada con éxito' }, { headers: { 'Access-Control-Allow-Origin': '*' } });
 }
 
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
@@ -52,8 +52,8 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
         .query('DELETE FROM Tareas WHERE id = @id');
 
     if (result.rowsAffected[0] === 0) {
-        return NextResponse.json({ error: 'Tarea no encontrada' }, { status: 404 });
+        return NextResponse.json({ error: 'Tarea no encontrada' }, { status: 404, headers: { 'Access-Control-Allow-Origin': '*' } });
     }
 
-    return NextResponse.json({ message: 'Tarea eliminada con éxito' });
+    return NextResponse.json({ message: 'Tarea eliminada con éxito' }, { headers: { 'Access-Control-Allow-Origin': '*' } });
 }
