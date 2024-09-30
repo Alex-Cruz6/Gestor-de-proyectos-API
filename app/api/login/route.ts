@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       `);
 
     if (result.recordset.length > 0) {
-      return NextResponse.json({ message: 'Login correcto prueba' , usuario: {
+      return NextResponse.json({ message: 'Login correcto' , usuario: {
           nombre: usuario.nombre_usuario,
           rol: usuario.rol,  
         },}, { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } });
