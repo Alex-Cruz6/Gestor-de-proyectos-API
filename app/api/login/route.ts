@@ -21,10 +21,15 @@ export async function POST(req: NextRequest) {
       `);
 
     if (result.recordset.length > 0) {
-      return NextResponse.json({ message: 'Login correcto' , usuario: {
+      const usuario = result.recordset[0];
+      
+      return NextResponse.json({
+        message: 'Login correcto',
+        usuario: {
           nombre: usuario.nombre_usuario,
           rol: usuario.rol,  
-        },}, { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } });
+        },
+      }, { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } });
     } else {
       return NextResponse.json({ message: 'Credenciales incorrectas' }, { status: 401, headers: { 'Access-Control-Allow-Origin': '*' } });
     }
