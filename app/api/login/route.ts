@@ -15,9 +15,11 @@ export async function POST(req: NextRequest) {
       .input('nombre_usuario', nombre_usuario)
       .input('contrasena', contrasena)
       .query(`
-        SELECT * FROM Usuarios 
-        WHERE nombre_usuario = @nombre_usuario 
-          AND contrasena = @contrasena
+        SELECT u.nombre_usuario, r.nombre as rol
+        FROM Usuarios u
+        INNER JOIN Roles r ON u.rol_id = r.id
+        WHERE u.nombre_usuario = @nombre_usuario 
+          AND u.contrasena = @contrasena
       `);
 
     if (result.recordset.length > 0) {
