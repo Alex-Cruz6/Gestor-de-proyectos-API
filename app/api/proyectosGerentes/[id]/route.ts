@@ -31,7 +31,9 @@ export async function GET(request: Request, { params }: { params: { id: string }
         }
 
         // Obtenemos los proyectos que gestionan esos gerentes
-        const gerenteIds = gerentes.map((g: any) => g.id);
+        type Gerente = { id: number; /* otras propiedades */ };
+        const gerenteIds = gerentes.map((g: Gerente) => g.id);
+
         const proyectosResult = await db
             .request()
             .query(
