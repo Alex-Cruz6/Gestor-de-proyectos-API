@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getConnection } from '../../../lib/db';
+import jwt from 'jsonwebtoken';
+
+function getEnvVar(variable: string): string {
+  const value = process.env[variable];
+  if (!value) {
+    throw new Error(`Environment variable ${variable} is not defined`);
+  }
+  return value;
+}
 
 export async function POST(req: NextRequest) {
   const { nombre_usuario, contrasena } = await req.json();
@@ -24,9 +33,16 @@ export async function POST(req: NextRequest) {
 
     if (result.recordset.length > 0) {
       const usuario = result.recordset[0];
-      
+
+      const token = jwt.sign(
+        { nombre_usuario: usuario.nombre_usuario, rol: usuario.rol }, 
+        getEnvVar('JWT_SECRET'), 
+        { expiresIn: '1h' }
+      );
+
       return NextResponse.json({
         message: 'Login correcto',
+        token,
         usuario: {
           nombre: usuario.nombre_usuario,
           rol: usuario.rol,  
