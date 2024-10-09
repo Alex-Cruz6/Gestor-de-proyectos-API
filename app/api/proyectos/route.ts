@@ -62,21 +62,3 @@ export async function PATCH(request: Request) {
         return NextResponse.json({ message: 'Error al actualizar el proyecto' }, { status: 500, headers: { 'Access-Control-Allow-Origin': '*' } });
     }
 }
-
-export async function DELETE(request: Request) {
-    const { id } = await request.json();
-
-    if (!id) {
-        return NextResponse.json({ message: 'ID del proyecto es obligatorio' }, { status: 400, headers: { 'Access-Control-Allow-Origin': '*' } });
-    }
-
-    try {
-        const pool = await getConnection();
-        const result = await pool.request()
-            .input('id', id)
-            .query(`DELETE FROM Proyectos WHERE id = @id`);
-        return NextResponse.json({ message: 'Proyecto eliminado con éxito' }, { headers: { 'Access-Control-Allow-Origin': '*' } });
-    } catch (error) {
-        return NextResponse.json({ message: 'Error al eliminar el proyecto' }, { status: 500, headers: { 'Access-Control-Allow-Origin': '*' } });
-    }
-}
